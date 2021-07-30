@@ -9,6 +9,12 @@ class Test extends Model
 {
 	use HasFactory;
 
+	protected $fillable = [
+		'task_id',
+		'answer',
+		'content',
+	];
+
 	public function task()
 	{
 		return $this->hasMany(Task::class);

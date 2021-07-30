@@ -8,7 +8,7 @@ use \App\Models\Test;
 
 class TestHelper
 {
-	public static function add($task_id = null, $answer = '', $content = '')
+	public static function add($task_id, $answer, $content)
 	{
 		$testData = [
 			'task_id' => $task_id,

@@ -8,7 +8,7 @@ use \App\Models\Task;
 
 class TaskHelper
 {
-	public static function add($book_id = null, $title = '', $chapter = '', $difficulty = '', $content = '')
+	public static function add($book_id, $title, $chapter, $difficulty, $content)
 	{
 		$taskData = [
 			'book_id' => $book_id,

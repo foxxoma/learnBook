@@ -7,7 +7,7 @@ use \App\Models\User;
 
 class BookHelper
 {
-	public static function add($name = '', $language = '')
+	public static function add($name, $language)
 	{
 		$bookData = [
 			'name' => $name,
