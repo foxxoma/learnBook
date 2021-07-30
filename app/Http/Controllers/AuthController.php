@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use \App\Helpers\TaskHelper;
+use \App\Helpers\UserHelper;
 
-use App\Task;
+use App\User;
 
-class Task extends Controller
+class AuthController extends Controller
 {
     //
 }
