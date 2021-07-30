@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use \App\Helpers\TestHelper;
+use \App\Helpers\UserHelper;
 
-use App\Test;
+use App\User;
 
-class Test extends Controller
+class Auth extends Controller
 {
     //
 }
