@@ -10,8 +10,8 @@ use App\Book;
 
 class BookController extends Controller
 {
-	public function addBook(Request $request)
+	public function add(Request $request)
 	{
-		return BookHelper::addBook($request->name, $request->language);
+		return BookHelper::add($request->name, $request->language);
 	}
 }

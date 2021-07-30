@@ -7,17 +7,18 @@ use \App\Models\User;
 
 class BookHelper
 {
-	public static function addBook(string $name = '', string $language = '')
+	public static function add($name = '', $language = '')
 	{
-		if (empty($name))
-			return ['success' => false, 'msg' => 'empty name'];
+		$bookData = [
+			'name' => $name,
+			'language' => $language,
+		];
 
-		if (empty($language))
-			return ['success' => false, 'msg' => 'empty language'];
+		$errors = ValidateHelper::checkEmpty($bookData);
+		if (!empty($errors))
+			return ['success' => false, 'msgs' => $errors];
 
-		$book = new Book;
-		$book->name = $name;
-		$book->language = $language;
+		$book = Book::create($bookData);
 
 		if(!$book->save())
 			return ['success' => false, 'msg' => 'save error'];

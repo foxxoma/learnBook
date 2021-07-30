@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use \App\Helpers\TaskHelper;
-
 class ValidateHelper
 {
 	public static function checkEmpty(array $props)
@@ -12,7 +10,7 @@ class ValidateHelper
 
 		foreach ($props as $key => $prop)
 			if(empty($prop))
-				$errors[] = 'empty' . $key;
+				$errors[] = 'empty ' . $key;
 
 		if(empty($errors))
 			return false;
