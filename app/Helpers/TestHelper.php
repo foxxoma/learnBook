@@ -23,7 +23,7 @@ class TestHelper
 		$test = Test::create($testData);
 
 		if(!$test->save())
-			return ['success' => false, 'msg' => 'save error'];
+			return ['success' => false, 'msgs' => ['save error']];
 		else
 			return ['success' => true, 'book' => $book];
 	}

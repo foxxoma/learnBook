@@ -21,17 +21,26 @@ class BookHelper
 		$book = Book::create($bookData);
 
 		if(!$book->save())
-			return ['success' => false, 'msg' => 'save error'];
+			return ['success' => false, 'msgs' => ['save error']];
 		else
 			return ['success' => true, 'book' => $book];
 	}
 
-	public static function getBooks(int $count = 10, int $page = 1, string $name = '', string $sort = 'asc')
+	public static function getBooks($count, $page, $name, $sort)
 	{
+		$data = [
+			'count' => $count,
+			'page' => $page,
+		];
+
+		$errors = ValidateHelper::checkEmpty($data);
+		if (!empty($errors))
+			return ['success' => false, 'msgs' => $errors]
+
 		$skip = --$page * $count;
 
 		$books = Book::Where('name', 'like', $name)
-			->sortBy('name', $sort)
+			->sortBy('name', $sort?$sort:'asc')
 			->skip($skip)
 			->take($count)
 			->get();
@@ -39,38 +48,24 @@ class BookHelper
 		return ['success' => true, 'books' => $books];
 	}
 
-	public static function getUserBooks(int $user_id = null, bool $getPercent = true)
+	public static function getUserBooks($getPercent)
 	{
-		if (empty($user_id))
-			return ['success' => false, 'msg' => 'empty user_id'];
-
-		$skip = --$page * $count;
-
-		$user = User::Where('id', $user_id)->first();
-
-		if (empty($user))
-			return ['success' => false, 'msg' => 'user not find'];
-
+		$user = Auth::user();
 		$books = $user->books->get();
 
 		if($getPercent)
-
+			foreach($books as &$book)
+				$book['passed'] = $this->getPassed($book['id'])['passed'];
 
 		return ['success' => true, 'books' => $books];
 	}
 
-	public static function getPassed(int $user_id = null, int $book_id = null)
+	public static function getPassed($book_id)
 	{
-		if (empty($user_id))
-			return ['success' => false, 'msg' => 'empty user_id'];
+		$user = Auth::user();
 
 		if (empty($book_id))
-			return ['success' => false, 'msg' => 'empty book_id'];
-
-		$user = User::Where('id', $user_id)->first();
-
-		if (empty($user))
-			return ['success' => false, 'msg' => 'user not find'];
+			return ['success' => false, 'msgs' => ['empty book_id']];
 
 		$tasks = Book::Where('book_id', $book_id)->get();
 		$user_tasks = $user->tasks->Where('books', $book_id)->get();

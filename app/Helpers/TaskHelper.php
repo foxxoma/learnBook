@@ -25,7 +25,7 @@ class TaskHelper
 		$task = Task::create($taskData);
 
 		if(!$task->save())
-			return ['success' => false, 'msg' => 'save error'];
+			return ['success' => false, 'msga' => ['save error']];
 		else
 			return ['success' => true, 'book' => $book];
 	}
