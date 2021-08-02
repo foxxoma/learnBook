@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +19,17 @@ class AuthController extends Controller
 			'name' => $request['name'],
 			'email' => $request['email'],
 			'password' => Hash::make($request['password']),
-			'api_token' => Str::random(60),
+			'api_token' => hash('sha256',Str::random(60)),
 		]);
+	}
+
+	public function authenticate(Request $request)
+	{
+		$credentials = $request->only('email', 'password');
+
+		if (Auth::attempt($credentials))
+			return ['success' => true, 'user' => Auth::user()];
+		else
+			return ['success' => false];
 	}
 }

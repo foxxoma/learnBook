@@ -23,3 +23,4 @@ Route::middleware('auth:api')->post('/book/add', [BookController::class, 'add'])
 Route::post('/task/add', [TaskController::class, 'add']);
 Route::post('/test/add', [TestController::class, 'add']);
 Route::post('/user/create', [AuthController::class, 'create']);
+Route::post('/user/authenticate', [AuthController::class, 'authenticate']);
