@@ -14,4 +14,9 @@ class BookController extends Controller
 	{
 		return BookHelper::add($request->name, $request->language);
 	}
+
+	public function getUserBooks(Request $request)
+	{
+		return BookHelper::getUserBooks($request->getPercent);
+	}
 }

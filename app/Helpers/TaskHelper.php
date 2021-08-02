@@ -27,6 +27,6 @@ class TaskHelper
 		if(!$task->save())
 			return ['success' => false, 'msga' => ['save error']];
 		else
-			return ['success' => true, 'book' => $book];
+			return ['success' => true, 'book' => $task];
 	}
 }

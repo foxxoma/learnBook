@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('auth:api')->post('/book/add', [BookController::class, 'add']);
+Route::middleware('auth:api')->post('/book/getUserBooks', [BookController::class, 'getUserBooks']);
 Route::post('/task/add', [TaskController::class, 'add']);
 Route::post('/test/add', [TestController::class, 'add']);
 Route::post('/user/create', [AuthController::class, 'create']);
-Route::post('/user/authenticate', [AuthController::class, 'authenticate']);
+Route::middleware('auth:api')->post('/user/addBook', [UserController::class, 'addBook']);
+Route::middleware('auth:api')->post('/user/addTask', [UserController::class, 'addTask']);

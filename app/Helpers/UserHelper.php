@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use \App\Helpers\ValidateHelper;
+use Illuminate\Support\Facades\Auth;
 
 use \App\Models\User;
 use \App\Models\Book;

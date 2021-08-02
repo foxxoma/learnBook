@@ -2,8 +2,11 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Auth;
+
 use \App\Models\Book;
 use \App\Models\User;
+use \App\Models\Task;
 
 class BookHelper
 {
@@ -35,7 +38,7 @@ class BookHelper
 
 		$errors = ValidateHelper::checkEmpty($data);
 		if (!empty($errors))
-			return ['success' => false, 'msgs' => $errors]
+			return ['success' => false, 'msgs' => $errors];
 
 		$skip = --$page * $count;
 
@@ -51,11 +54,11 @@ class BookHelper
 	public static function getUserBooks($getPercent)
 	{
 		$user = Auth::user();
-		$books = $user->books->get();
+		$books = $user->books;
 
 		if($getPercent)
 			foreach($books as &$book)
-				$book['passed'] = $this->getPassed($book['id'])['passed'];
+				$book['passed'] = self::getPassed($book['id'])['passed'];
 
 		return ['success' => true, 'books' => $books];
 	}
@@ -67,8 +70,8 @@ class BookHelper
 		if (empty($book_id))
 			return ['success' => false, 'msgs' => ['empty book_id']];
 
-		$tasks = Book::Where('book_id', $book_id)->get();
-		$user_tasks = $user->tasks->Where('books', $book_id)->get();
+		$tasks = Task::Where('book_id', $book_id)->get();
+		$user_tasks = $user->tasks->Where('book_id', $book_id);
 
 		$passed = count($user_tasks) / (count($tasks) / 100);
 
