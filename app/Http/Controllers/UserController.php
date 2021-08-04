@@ -12,8 +12,8 @@ class UserController extends Controller
         return UserHelper::addBook($request->book_id);
     }
 
-    public function addTask(Request $request)
+    public function addPassedTask(Request $request)
     {
-        return UserHelper::addTask($request->task_id);
+        return UserHelper::addPassedTask($request->task_id);
     }
 }

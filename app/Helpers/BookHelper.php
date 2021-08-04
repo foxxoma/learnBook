@@ -58,12 +58,12 @@ class BookHelper
 
 		if($getPercent)
 			foreach($books as &$book)
-				$book['passed'] = self::getPassed($book['id'])['passed'];
+				$book['percent'] = self::getPercent($book['id'])['percent'];
 
 		return ['success' => true, 'books' => $books];
 	}
 
-	public static function getPassed($book_id)
+	public static function getPercent($book_id)
 	{
 		$user = Auth::user();
 
@@ -71,10 +71,10 @@ class BookHelper
 			return ['success' => false, 'msgs' => ['empty book_id']];
 
 		$tasks = Task::Where('book_id', $book_id)->get();
-		$user_tasks = $user->tasks->Where('book_id', $book_id);
+		$passedTasks = $user->tasks->Where('book_id', $book_id);
 
-		$passed = count($user_tasks) / (count($tasks) / 100);
+		$percent = count($passedTasks) / (count($tasks) / 100);
 
-		return ['success' => true, 'passed' => $passed];
+		return ['success' => true, 'percent' => $percent];
 	}
 }

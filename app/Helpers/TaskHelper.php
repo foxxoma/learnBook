@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Auth;
 use \App\Helpers\ValidateHelper;
 
 use \App\Models\Task;
@@ -28,5 +29,27 @@ class TaskHelper
 			return ['success' => false, 'msga' => ['save error']];
 		else
 			return ['success' => true, 'book' => $task];
+	}
+
+	public static function getTasks($book_id)
+	{
+		if (empty($book_id))
+			return ['success' => false, 'msgs' => ['empty book_id']];
+
+		$tasks = Task::Where('book_id', $book_id)->get();
+
+		return ['success' => true, 'tasks' => $tasks];
+	}
+
+	public static function getPassedTasks($book_id)
+	{
+		$user = Auth::user();
+
+		if (empty($book_id))
+			return ['success' => false, 'msgs' => ['empty book_id']];
+
+		$passedTasks = $user->tasks->Where('book_id', $book_id);
+
+		return ['success' => true, 'tasks' => $passedTasks];
 	}
 }

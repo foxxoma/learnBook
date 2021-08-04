@@ -19,18 +19,28 @@ class UserHelper
 		if(empty($book))
 			return ['success' => false, 'msgs' => ['book not find']];
 
+		$userBook = $user->books->Where('id', $book_id);
+
+		if(count($userBook) > 0)
+			return ['success' => true];
+
 		$user->books()->attach($book);
 
 		return ['success' => true];
 	}
 
-	public static function addTask($task_id)
+	public static function addPassedTask($task_id)
 	{
 		$user = Auth::user();
 
 		$task = Task::find($task_id);
 		if(empty($task))
 			return ['success' => false, 'msgs' => ['task not find']];
+
+		$userTask = $user->tasks->Where('id', $task_id);
+
+		if(count($userTask) > 0)
+			return ['success' => true];
 
 		$user->tasks()->attach($task);
 
