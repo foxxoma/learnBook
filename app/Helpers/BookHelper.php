@@ -42,8 +42,8 @@ class BookHelper
 
 		$skip = --$page * $count;
 
-		$books = Book::Where('name', 'like', $name)
-			->sortBy('name', $sort?$sort:'asc')
+		$books = Book::Where('name', 'like', '%'.$name.'%')
+			->orderBy('name', $sort?$sort:'asc')
 			->skip($skip)
 			->take($count)
 			->get();
