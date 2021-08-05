@@ -22,6 +22,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
 Route::post('/user/create', [AuthController::class, 'create']);
+Route::post('/user/authenticate', [AuthController::class, 'authenticate']);
 
 Route::middleware('auth:api')->post('/book/getUserBooks', [BookController::class, 'getUserBooks']);
 Route::middleware('auth:api')->post('/book/getBooks', [BookController::class, 'getBooks']);
