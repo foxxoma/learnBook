@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use \App\Helpers\ValidateHelper;
 
@@ -33,10 +34,20 @@ class TaskHelper
 
 	public static function getTasks($book_id)
 	{
+		$user = Auth::user();
+
 		if (empty($book_id))
 			return ['success' => false, 'msgs' => ['empty book_id']];
 
-		$tasks = Task::Where('book_id', $book_id)->get();
+		$tasks = Task::Where('book_id', $book_id)
+		->leftJoin('task_user', function ($join)  use ($user)
+		{
+			$join->on('task_user.task_id', '=', 'tasks.id');
+			$join->Where('task_user.user_id', '=', $user->id);
+		})
+		->groupBy('tasks.id')
+		->select(['tasks.*', DB::raw('COUNT(task_user.user_id) as is_subscribed')])
+		->get();
 
 		return ['success' => true, 'tasks' => $tasks];
 	}
