@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use \App\Models\Book;
 use \App\Models\User;
@@ -31,6 +32,8 @@ class BookHelper
 
 	public static function getBooks($count, $page, $name, $sort)
 	{
+		$user = Auth::user();
+
 		$data = [
 			'count' => $count,
 			'page' => $page,
@@ -46,6 +49,13 @@ class BookHelper
 			->orderBy('name', $sort?$sort:'asc')
 			->skip($skip)
 			->take($count)
+			->leftJoin('book_user', function ($join)  use ($user)
+			{
+	            $join->on('book_user.book_id', '=', 'books.id');
+	          	$join->Where('book_user.user_id', '=', $user->id);
+	        })
+	        ->groupBy('books.id')
+	        ->select(['books.*',DB::raw('COUNT(book_user.user_id) as is_subscribed')])
 			->get();
 
 		return ['success' => true, 'books' => $books];
